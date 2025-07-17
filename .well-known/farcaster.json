@@ -6,6 +6,8 @@
     "iconUrl": "https://moonalisaa.vercel.app/icon.png",
     "homeUrl": "https://moonalisaa.vercel.app/",
     "imageUrl": "https://moonalisaa.vercel.app/preview.png",
+    "requiredChains": ["eip155:8453"],
+    "requiredCapabilities": ["actions.signIn"],
     "button": {
       "title": "🐄 Play MOONALISA",
       "action": {
