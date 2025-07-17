@@ -36,27 +36,12 @@ class MOONALISAGame {
     }
 
     async initializeFarcaster() {
+        // Need to call ready() before anything else
+        await window.sdk.actions.ready()
         let sdkReady = false;
         
-        try {
-            let sdk = null;
-            
-            // Method 1: Try pre-loaded SDK first
-            if (window.farcasterSDK) {
-                console.log('Using pre-loaded Farcaster SDK');
-                sdk = window.farcasterSDK;
-            } else {
-                // Method 2: Dynamic import
-                console.log('Attempting dynamic import of Farcaster SDK');
-                const sdkModule = await import('@farcaster/miniapp-sdk');
-                sdk = sdkModule.sdk;
-            }
-            
-            if (!sdk) {
-                throw new Error('SDK not available');
-            }
-            
-            this.sdk = sdk;
+        try {            
+            this.sdk = window.sdk;
             this.isInMiniapp = true;
             console.log('Farcaster SDK loaded successfully');
 
@@ -68,7 +53,7 @@ class MOONALISAGame {
             // Now try to get user context (this can fail without breaking ready())
             try {
                 const context = await this.sdk.context;
-                if (context && context.user) {
+                if (context?.user) {
                     this.farcasterUser = context.user;
                     this.updateWalletStatus(context.user.custody_address);
                     
@@ -96,7 +81,7 @@ class MOONALISAGame {
                 console.log('Detected iframe environment, attempting fallback ready call');
                 try {
                     // Fallback: try to call ready on window.parent if available
-                    if (window.parent && window.parent.postMessage) {
+                    if (window.parent?.postMessage) {
                         window.parent.postMessage({ type: 'fc_ready' }, '*');
                         console.log('Fallback ready signal sent');
                     }
