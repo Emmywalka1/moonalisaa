@@ -1,22 +1,12 @@
 {
-  "miniapp": {
+  "frame": {
     "version": "1",
     "name": "MOONALISA Tic-Tac-Toe",
-    "description": "Strategic Battle Mode - Outsmart the AI in this engaging tic-tac-toe game!",
     "iconUrl": "https://moonalisaa.vercel.app/icon.png",
     "homeUrl": "https://moonalisaa.vercel.app/",
     "imageUrl": "https://moonalisaa.vercel.app/preview.png",
-    "requiredChains": ["eip155:8453"],
-    "requiredCapabilities": ["actions.signIn"],
-    "button": {
-      "title": "🐄 Play MOONALISA",
-      "action": {
-        "type": "launch_frame",
-        "name": "MOONALISA",
-        "url": "https://moonalisaa.vercel.app/",
-        "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
-        "splashBackgroundColor": "#667eea"
-      }
-    }
+    "buttonTitle": "🐄 Play MOONALISA",
+    "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
+    "splashBackgroundColor": "#667eea"
   }
 }
