@@ -19,27 +19,10 @@
     <meta property="fc:frame:button:2:action" content="tx" />
     <meta property="fc:frame:button:2:target" content="eip155:8453:0x14Eee7d412bDe071a2336C28144D42FAFECf7b07" />
     
-    <!-- Farcaster Miniapp Manifest -->
-    <meta name="fc:miniapp" content='{
-        "version": "1",
-        "name": "MOONALISA",
-        "iconUrl": "https://moonalisaa.vercel.app/icon.png",
-        "homeUrl": "https://moonalisaa.vercel.app/",
-        "imageUrl": "https://moonalisaa.vercel.app/preview.png",
-        "button": {
-            "title": "🐄 Play MOONALISA (Hard Mode)",
-            "action": {
-                "type": "launch_frame",
-                "name": "MOONALISA",
-                "url": "https://moonalisaa.vercel.app",
-                "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
-                "splashBackgroundColor": "#667eea"
-            }
-        },
-        "requiredChains": ["eip155:8453"],
-        "requiredCapabilities": ["actions.signIn"]
-    }' />
     
+    <!-- Farcaster Frame Embed -->
+<meta name="fc:frame" content='{"version":"next","imageUrl":"https://moonalisaa.vercel.app/preview.png","button":{"title":"🐄 Play MOONALISA","action":{"type":"launch_frame","name":"MOONALISA","url":"https://moonalisaa.vercel.app/","splashImageUrl":"https://moonalisaa.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
+        
     <!-- Open Graph -->
     <meta property="og:title" content="MOONALISA - Cows vs Grass Battle Game (Hard Mode)" />
     <meta property="og:image" content="https://moonalisaa.vercel.app/preview.png" />
