@@ -63,91 +63,10 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐄</text></svg>" />
     
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Load Farcaster SDK early but don't block rendering -->
-    <script>
-        // Pre-load SDK detection
-        window.farcasterSDKLoaded = false;
-        window.farcasterSDKError = null;
-        
-        // Early SDK loading with fallback
-        (function() {
-            try {
-                // Check if we're in a Farcaster environment
-                if (window.location !== window.parent.location) {
-                    console.log('🔍 Detected iframe environment - likely Farcaster miniapp');
-                    window.isFarcasterEnvironment = true;
-                } else {
-                    console.log('🌐 Standard web environment detected');
-                    window.isFarcasterEnvironment = false;
-                }
-            } catch (e) {
-                console.log('🔍 Could not determine environment, assuming web');
-                window.isFarcasterEnvironment = false;
-            }
-        })();
-        
-        // Function to load SDK with multiple fallback methods
-        async function loadFarcasterSDK() {
-            const maxRetries = 3;
-            let retryCount = 0;
-            
-            while (retryCount < maxRetries) {
-                try {
-                    // Method 1: Try CDN first
-                    if (!window.farcasterSDK) {
-                        const script = document.createElement('script');
-                        script.src = 'https://unpkg.com/@farcaster/frame-sdk@latest/dist/sdk.js';
-                        script.async = true;
-                        script.onload = () => {
-                            window.farcasterSDKLoaded = true;
-                            console.log('✅ Farcaster SDK loaded from CDN');
-                        };
-                        script.onerror = () => {
-                            console.log('⚠️ CDN load failed, trying fallback');
-                            tryFallbackMethods();
-                        };
-                        document.head.appendChild(script);
-                        
-                        // Wait a bit for load
-                        await new Promise(resolve => setTimeout(resolve, 1000));
-                        
-                        if (window.farcasterSDKLoaded) break;
-                    }
-                    
-                    retryCount++;
-                } catch (error) {
-                    console.log(`SDK load attempt ${retryCount + 1} failed:`, error);
-                    retryCount++;
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                }
-            }
-            
-            if (!window.farcasterSDKLoaded) {
-                console.log('⚠️ All SDK load attempts failed, using fallback mode');
-                window.farcasterSDKError = 'Could not load SDK';
-            }
-        }
-        
-        function tryFallbackMethods() {
-            // Method 2: Try alternative CDN
-            const script2 = document.createElement('script');
-            script2.src = 'https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk@latest/dist/sdk.js';
-            script2.async = true;
-            script2.onload = () => {
-                window.farcasterSDKLoaded = true;
-                console.log('✅ Farcaster SDK loaded from fallback CDN');
-            };
-            script2.onerror = () => {
-                console.log('⚠️ All CDN methods failed');
-            };
-            document.head.appendChild(script2);
-        }
-        
-        // Start loading SDK early
-        if (window.isFarcasterEnvironment) {
-            loadFarcasterSDK();
-        }
+    <script type="module">
+      import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk'
+      // We need to set the sdk to the window object so that the game.js can access it
+      window.sdk = sdk
     </script>
 </head>
 <body>
@@ -330,54 +249,6 @@
         <div id="status" class="status" role="alert" aria-live="polite"></div>
     </div>
 
-    <!-- Farcaster SDK loading with fallback -->
-    <script>
-        // Enhanced SDK loading with proper error handling
-        (async function() {
-            try {
-                // Try multiple SDK loading methods
-                let sdkLoaded = false;
-                
-                // Method 1: Pre-loaded SDK
-                if (window.farcasterSDK) {
-                    console.log('✅ Using pre-loaded Farcaster SDK');
-                    sdkLoaded = true;
-                }
-                
-                // Method 2: Try from script tag
-                if (!sdkLoaded) {
-                    // Wait a bit for script to load
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    if (window.farcasterSDK || window.FarcasterSDK) {
-                        console.log('✅ Farcaster SDK loaded from script tag');
-                        sdkLoaded = true;
-                    }
-                }
-                
-                // Method 3: Dynamic import fallback
-                if (!sdkLoaded) {
-                    try {
-                        const sdkModule = await import('https://unpkg.com/@farcaster/frame-sdk@latest/dist/sdk.js');
-                        if (sdkModule) {
-                            console.log('✅ Farcaster SDK loaded via dynamic import');
-                            sdkLoaded = true;
-                        }
-                    } catch (importError) {
-                        console.log('⚠️ Dynamic import failed:', importError);
-                    }
-                }
-                
-                if (!sdkLoaded) {
-                    console.log('⚠️ Could not load Farcaster SDK, running in fallback mode');
-                }
-                
-            } catch (error) {
-                console.log('⚠️ SDK loading error:', error);
-            }
-        })();
-    </script>
-    
     <!-- Debug section (remove in production) -->
     <script>
         // Debug helper - test token button functionality
@@ -400,8 +271,8 @@
     </script>
     
     <!-- Main game script -->
-    <script src="game.js"></script>
-    
+    <script defer src="game.js"></script>
+
     <!-- Keyboard accessibility -->
     <script>
         document.addEventListener('keydown', function(e) {
