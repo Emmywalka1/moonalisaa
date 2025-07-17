@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MOONALISA - Cows vs Grass Battle (Hard Mode)</title>
     
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://auth.farcaster.xyz" />
+    <link rel="preconnect" href="https://api.farcaster.xyz" />
+    <link rel="preconnect" href="https://dexscreener.com" />
+    
     <!-- Farcaster Frame Meta Tags -->
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="https://your-domain.vercel.app/preview.png" />
@@ -14,27 +19,157 @@
     <meta property="fc:frame:button:2:action" content="tx" />
     <meta property="fc:frame:button:2:target" content="eip155:8453:0x14Eee7d412bDe071a2336C28144D42FAFECf7b07" />
     
-    <!-- Mini App Meta Tags -->
-    <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://your-domain.vercel.app/preview.png","button":{"title":"🐄 Play MOONALISA (Hard Mode)","action":{"type":"launch_frame","name":"MOONALISA","url":"https://your-domain.vercel.app","splashImageUrl":"https://your-domain.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
+    <!-- Farcaster Miniapp Manifest -->
+    <meta name="fc:miniapp" content='{
+        "version": "1",
+        "name": "MOONALISA Tic-Tac-Toe",
+        "iconUrl": "https://your-domain.vercel.app/icon.png",
+        "homeUrl": "https://your-domain.vercel.app/",
+        "imageUrl": "https://your-domain.vercel.app/preview.png",
+        "button": {
+            "title": "🐄 Play MOONALISA (Hard Mode)",
+            "action": {
+                "type": "launch_frame",
+                "name": "MOONALISA",
+                "url": "https://your-domain.vercel.app",
+                "splashImageUrl": "https://your-domain.vercel.app/splash.png",
+                "splashBackgroundColor": "#667eea"
+            }
+        },
+        "requiredChains": ["eip155:8453"],
+        "requiredCapabilities": ["actions.signIn"]
+    }' />
     
     <!-- Open Graph -->
     <meta property="og:title" content="MOONALISA - Cows vs Grass Battle Game (Hard Mode)" />
     <meta property="og:image" content="https://your-domain.vercel.app/preview.png" />
     <meta property="og:description" content="Battle the AI on maximum difficulty! Only the strongest survive!" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.vercel.app/" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MOONALISA - Cows vs Grass Battle Game (Hard Mode)" />
+    <meta name="twitter:description" content="Battle the AI on maximum difficulty! Only the strongest survive!" />
+    <meta name="twitter:image" content="https://your-domain.vercel.app/preview.png" />
+    
+    <!-- Farcaster specific meta tags -->
+    <meta name="farcaster:frame" content="vNext" />
+    <meta name="farcaster:frame:image" content="https://your-domain.vercel.app/preview.png" />
+    <meta name="farcaster:frame:button:1" content="🐄 Play MOONALISA" />
+    <meta name="farcaster:frame:button:1:action" content="post" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐄</text></svg>" />
     
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Load Farcaster SDK early but don't block rendering -->
+    <script>
+        // Pre-load SDK detection
+        window.farcasterSDKLoaded = false;
+        window.farcasterSDKError = null;
+        
+        // Early SDK loading with fallback
+        (function() {
+            try {
+                // Check if we're in a Farcaster environment
+                if (window.location !== window.parent.location) {
+                    console.log('🔍 Detected iframe environment - likely Farcaster miniapp');
+                    window.isFarcasterEnvironment = true;
+                } else {
+                    console.log('🌐 Standard web environment detected');
+                    window.isFarcasterEnvironment = false;
+                }
+            } catch (e) {
+                console.log('🔍 Could not determine environment, assuming web');
+                window.isFarcasterEnvironment = false;
+            }
+        })();
+        
+        // Function to load SDK with multiple fallback methods
+        async function loadFarcasterSDK() {
+            const maxRetries = 3;
+            let retryCount = 0;
+            
+            while (retryCount < maxRetries) {
+                try {
+                    // Method 1: Try CDN first
+                    if (!window.farcasterSDK) {
+                        const script = document.createElement('script');
+                        script.src = 'https://unpkg.com/@farcaster/frame-sdk@latest/dist/sdk.js';
+                        script.async = true;
+                        script.onload = () => {
+                            window.farcasterSDKLoaded = true;
+                            console.log('✅ Farcaster SDK loaded from CDN');
+                        };
+                        script.onerror = () => {
+                            console.log('⚠️ CDN load failed, trying fallback');
+                            tryFallbackMethods();
+                        };
+                        document.head.appendChild(script);
+                        
+                        // Wait a bit for load
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        
+                        if (window.farcasterSDKLoaded) break;
+                    }
+                    
+                    retryCount++;
+                } catch (error) {
+                    console.log(`SDK load attempt ${retryCount + 1} failed:`, error);
+                    retryCount++;
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+            }
+            
+            if (!window.farcasterSDKLoaded) {
+                console.log('⚠️ All SDK load attempts failed, using fallback mode');
+                window.farcasterSDKError = 'Could not load SDK';
+            }
+        }
+        
+        function tryFallbackMethods() {
+            // Method 2: Try alternative CDN
+            const script2 = document.createElement('script');
+            script2.src = 'https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk@latest/dist/sdk.js';
+            script2.async = true;
+            script2.onload = () => {
+                window.farcasterSDKLoaded = true;
+                console.log('✅ Farcaster SDK loaded from fallback CDN');
+            };
+            script2.onerror = () => {
+                console.log('⚠️ All CDN methods failed');
+            };
+            document.head.appendChild(script2);
+        }
+        
+        // Start loading SDK early
+        if (window.isFarcasterEnvironment) {
+            loadFarcasterSDK();
+        }
+    </script>
 </head>
 <body>
+    <!-- Loading overlay for Farcaster integration -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner">🐄</div>
+            <div class="loading-text">Loading MOONALISA...</div>
+            <div class="loading-subtext">Initializing Hard Mode AI</div>
+        </div>
+    </div>
+
     <div class="container farcaster-optimized">
         <header>
             <h1>🐄 MOONALISA 🌱</h1>
-            <p>Ultimate Hard Mode Battle</p>
+            <p>Strategic Battle Mode</p>
             <div class="header-badges">
                 <div class="game-mode-badge">
-                    <span>⚔️ Hard Mode Only</span>
+                    <span>⚔️ Balanced AI Challenge</span>
                 </div>
                 <div class="token-badge">
-                    <button id="buyTokenHeader" class="farcaster-token-btn">
+                    <button id="buyTokenHeader" class="farcaster-token-btn" onclick="window.game?.openTokenPurchase()">
                         <span>🚀 Buy $MOON Token</span>
                     </button>
                 </div>
@@ -47,7 +182,7 @@
         <div class="game-setup">
             <div class="player-selection">
                 <h3>Choose Your Side</h3>
-                <p class="difficulty-warning">⚠️ Warning: AI uses perfect strategy. Only masters can win!</p>
+                <p class="difficulty-warning">⚡ Strategic Challenge: AI is smart but beatable! Win with good tactics!</p>
                 <div class="player-options">
                     <button id="chooseCow" class="player-btn cow-btn">
                         <span class="player-icon">🐄</span>
@@ -65,8 +200,8 @@
             <!-- Player Name Input -->
             <div class="player-name-section">
                 <h3>Enter Your Name</h3>
-                <input type="text" id="playerNameInput" placeholder="Your name for the leaderboard" maxlength="20">
-                <p class="hard-mode-note">🏆 Beat the AI to earn legendary status!</p>
+                <input type="text" id="playerNameInput" placeholder="Your name for the leaderboard" maxlength="20" autocomplete="nickname">
+                <p class="hard-mode-note">🏆 Use strategy to outsmart the AI and climb the leaderboard!</p>
             </div>
         </div>
 
@@ -95,22 +230,22 @@
                         <span id="turnIndicator">🐄 Your Turn</span>
                     </div>
                     <div class="game-info">
-                        <span class="hard-mode-indicator">⚔️ HARD MODE - Perfect AI</span>
+                        <span class="hard-mode-indicator">⚡ Strategic Mode - Balanced AI</span>
                     </div>
                 </div>
             </div>
 
             <div class="board-container">
                 <div class="board" id="gameGrid">
-                    <div class="cell" data-position="0"></div>
-                    <div class="cell" data-position="1"></div>
-                    <div class="cell" data-position="2"></div>
-                    <div class="cell" data-position="3"></div>
-                    <div class="cell" data-position="4"></div>
-                    <div class="cell" data-position="5"></div>
-                    <div class="cell" data-position="6"></div>
-                    <div class="cell" data-position="7"></div>
-                    <div class="cell" data-position="8"></div>
+                    <div class="cell" data-position="0" role="button" tabindex="0" aria-label="Cell 1"></div>
+                    <div class="cell" data-position="1" role="button" tabindex="0" aria-label="Cell 2"></div>
+                    <div class="cell" data-position="2" role="button" tabindex="0" aria-label="Cell 3"></div>
+                    <div class="cell" data-position="3" role="button" tabindex="0" aria-label="Cell 4"></div>
+                    <div class="cell" data-position="4" role="button" tabindex="0" aria-label="Cell 5"></div>
+                    <div class="cell" data-position="5" role="button" tabindex="0" aria-label="Cell 6"></div>
+                    <div class="cell" data-position="6" role="button" tabindex="0" aria-label="Cell 7"></div>
+                    <div class="cell" data-position="7" role="button" tabindex="0" aria-label="Cell 8"></div>
+                    <div class="cell" data-position="8" role="button" tabindex="0" aria-label="Cell 9"></div>
                 </div>
             </div>
 
@@ -123,9 +258,9 @@
 
         <!-- Weekly Leaderboard -->
         <div class="leaderboard-section">
-            <h3>🏅 Hard Mode Champions</h3>
+            <h3>🏅 Strategic Mode Champions</h3>
             <div class="leaderboard-info">
-                <p>Win vs AI: 15 points | Draw vs AI: 8 points</p>
+                <p>Win vs AI: 10 points | Draw vs AI: 5 points</p>
                 <p class="reset-timer" id="resetTimer">Resets in: 7 days</p>
             </div>
             <div class="leaderboard-list" id="leaderboardList">
@@ -158,13 +293,13 @@
         <!-- Token Info Section -->
         <div class="token-info-section">
             <h3>🌙 MOONALISA Token</h3>
-            <p class="token-description">Prove your worth by defeating the perfect AI, then celebrate with $MOON tokens!</p>
+            <p class="token-description">Show your strategic skills by outsmarting the AI, then celebrate with $MOON tokens!</p>
             <div class="token-details">
                 <div class="token-address">
                     <span class="label">Contract:</span>
                     <span class="address">0x14Eee7d412bDe071a2336C28144D42FAFECf7b07</span>
                 </div>
-                <button id="buyTokenMain" class="buy-token-btn farcaster-token-btn">
+                <button id="buyTokenMain" class="buy-token-btn farcaster-token-btn" onclick="window.game?.openTokenPurchase()">
                     <span>🚀 Buy $MOON with Farcaster Wallet</span>
                 </button>
                 <div id="transactionStatus" class="transaction-status hidden">
@@ -180,20 +315,101 @@
                 <div class="result-message" id="resultMessage">Cows triumph over AI!</div>
                 <div class="result-score" id="resultScore">+15 points!</div>
                 <div class="token-promo">
-                    <p>🌙 You conquered the AI! Celebrate with $MOON tokens!</p>
-                    <button id="buyTokenResult" class="small-token-link farcaster-token-btn">
+                    <p>🌙 Great strategic play! Celebrate your victory with $MOON tokens!</p>
+                    <button id="buyTokenResult" class="small-token-link farcaster-token-btn" onclick="window.game?.openTokenPurchase()">
                         Get $MOON
                     </button>
                 </div>
-                <button id="playAgain" class="btn-primary">Battle Again</button>
+                <div class="result-actions">
+                    <button id="playAgain" class="btn-primary">Battle Again</button>
+                    <button id="shareResult" class="btn-secondary">Share Result</button>
+                </div>
             </div>
         </div>
 
-        <div id="status" class="status"></div>
+        <div id="status" class="status" role="alert" aria-live="polite"></div>
     </div>
 
-    <!-- Farcaster Frame SDK -->
-    <script src="https://unpkg.com/@farcaster/frame-sdk@0.0.1/dist/sdk.js"></script>
+    <!-- Farcaster SDK loading with fallback -->
+    <script>
+        // Enhanced SDK loading with proper error handling
+        (async function() {
+            try {
+                // Try multiple SDK loading methods
+                let sdkLoaded = false;
+                
+                // Method 1: Pre-loaded SDK
+                if (window.farcasterSDK) {
+                    console.log('✅ Using pre-loaded Farcaster SDK');
+                    sdkLoaded = true;
+                }
+                
+                // Method 2: Try from script tag
+                if (!sdkLoaded) {
+                    // Wait a bit for script to load
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    if (window.farcasterSDK || window.FarcasterSDK) {
+                        console.log('✅ Farcaster SDK loaded from script tag');
+                        sdkLoaded = true;
+                    }
+                }
+                
+                // Method 3: Dynamic import fallback
+                if (!sdkLoaded) {
+                    try {
+                        const sdkModule = await import('https://unpkg.com/@farcaster/frame-sdk@latest/dist/sdk.js');
+                        if (sdkModule) {
+                            console.log('✅ Farcaster SDK loaded via dynamic import');
+                            sdkLoaded = true;
+                        }
+                    } catch (importError) {
+                        console.log('⚠️ Dynamic import failed:', importError);
+                    }
+                }
+                
+                if (!sdkLoaded) {
+                    console.log('⚠️ Could not load Farcaster SDK, running in fallback mode');
+                }
+                
+            } catch (error) {
+                console.log('⚠️ SDK loading error:', error);
+            }
+        })();
+    </script>
+    
+    <!-- Debug section (remove in production) -->
+    <script>
+        // Debug helper - test token button functionality
+        function testTokenButton() {
+            console.log('🧪 Testing token button functionality...');
+            console.log('Game object:', window.game);
+            console.log('Game methods:', window.game ? Object.getOwnPropertyNames(Object.getPrototypeOf(window.game)) : 'No game object');
+            
+            if (window.game && window.game.openTokenPurchase) {
+                console.log('✅ Direct method available');
+                window.game.openTokenPurchase();
+            } else {
+                console.log('❌ Direct method not available, trying fallback...');
+                window.open('https://dexscreener.com/base/0x63b94da2c418fa7dc094850008a6bff90d71c675', '_blank');
+            }
+        }
+        
+        // Add to window for console testing
+        window.testTokenButton = testTokenButton;
+    </script>
+    
+    <!-- Main game script -->
     <script src="game.js"></script>
+    
+    <!-- Keyboard accessibility -->
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('cell') && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+    </script>
 </body>
 </html>
