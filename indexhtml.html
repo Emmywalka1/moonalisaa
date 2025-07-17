@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MOONALISA - Cows vs Grass Battle (Hard Mode)</title>
+    
+    <!-- Farcaster Frame Meta Tags -->
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://your-domain.vercel.app/preview.png" />
+    <meta property="fc:frame:button:1" content="Play MOONALISA" />
+    <meta property="fc:frame:button:1:action" content="post" />
+    <meta property="fc:frame:button:2" content="Buy $MOON" />
+    <meta property="fc:frame:button:2:action" content="tx" />
+    <meta property="fc:frame:button:2:target" content="eip155:8453:0x14Eee7d412bDe071a2336C28144D42FAFECf7b07" />
+    
+    <!-- Mini App Meta Tags -->
+    <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://your-domain.vercel.app/preview.png","button":{"title":"🐄 Play MOONALISA (Hard Mode)","action":{"type":"launch_frame","name":"MOONALISA","url":"https://your-domain.vercel.app","splashImageUrl":"https://your-domain.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MOONALISA - Cows vs Grass Battle Game (Hard Mode)" />
+    <meta property="og:image" content="https://your-domain.vercel.app/preview.png" />
+    <meta property="og:description" content="Battle the AI on maximum difficulty! Only the strongest survive!" />
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container farcaster-optimized">
+        <header>
+            <h1>🐄 MOONALISA 🌱</h1>
+            <p>Ultimate Hard Mode Battle</p>
+            <div class="header-badges">
+                <div class="game-mode-badge">
+                    <span>⚔️ Hard Mode Only</span>
+                </div>
+                <div class="token-badge">
+                    <button id="buyTokenHeader" class="farcaster-token-btn">
+                        <span>🚀 Buy $MOON Token</span>
+                    </button>
+                </div>
+            </div>
+            <div id="walletStatus" class="wallet-status hidden">
+                <span class="wallet-address"></span>
+            </div>
+        </header>
+
+        <div class="game-setup">
+            <div class="player-selection">
+                <h3>Choose Your Side</h3>
+                <p class="difficulty-warning">⚠️ Warning: AI uses perfect strategy. Only masters can win!</p>
+                <div class="player-options">
+                    <button id="chooseCow" class="player-btn cow-btn">
+                        <span class="player-icon">🐄</span>
+                        <span class="player-name">Play as Cow</span>
+                        <span class="player-desc">You go first</span>
+                    </button>
+                    <button id="chooseGrass" class="player-btn grass-btn">
+                        <span class="player-icon">🌱</span>
+                        <span class="player-name">Play as Grass</span>
+                        <span class="player-desc">AI goes first</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Player Name Input -->
+            <div class="player-name-section">
+                <h3>Enter Your Name</h3>
+                <input type="text" id="playerNameInput" placeholder="Your name for the leaderboard" maxlength="20">
+                <p class="hard-mode-note">🏆 Beat the AI to earn legendary status!</p>
+            </div>
+        </div>
+
+        <div id="gameBoard" class="game-board hidden">
+            <div class="game-header">
+                <div class="players-info">
+                    <div class="player-info">
+                        <span class="player-avatar" id="playerAvatar">🐄</span>
+                        <div class="player-details">
+                            <div class="player-label">You</div>
+                            <div class="player-type" id="playerType">Cow Player</div>
+                        </div>
+                    </div>
+                    <div class="vs-divider">VS</div>
+                    <div class="player-info">
+                        <span class="player-avatar" id="computerAvatar">🌱</span>
+                        <div class="player-details">
+                            <div class="player-label">Perfect AI</div>
+                            <div class="player-type" id="computerType">Grass Player</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-status">
+                    <div class="current-turn">
+                        <span id="turnIndicator">🐄 Your Turn</span>
+                    </div>
+                    <div class="game-info">
+                        <span class="hard-mode-indicator">⚔️ HARD MODE - Perfect AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div class="board" id="gameGrid">
+                    <div class="cell" data-position="0"></div>
+                    <div class="cell" data-position="1"></div>
+                    <div class="cell" data-position="2"></div>
+                    <div class="cell" data-position="3"></div>
+                    <div class="cell" data-position="4"></div>
+                    <div class="cell" data-position="5"></div>
+                    <div class="cell" data-position="6"></div>
+                    <div class="cell" data-position="7"></div>
+                    <div class="cell" data-position="8"></div>
+                </div>
+            </div>
+
+            <div class="game-actions">
+                <button id="newGame" class="btn-primary">New Game</button>
+                <button id="backToSetup" class="btn-secondary">Change Side</button>
+                <button id="hintBtn" class="btn-hint">💡 Need Help?</button>
+            </div>
+        </div>
+
+        <!-- Weekly Leaderboard -->
+        <div class="leaderboard-section">
+            <h3>🏅 Hard Mode Champions</h3>
+            <div class="leaderboard-info">
+                <p>Win vs AI: 15 points | Draw vs AI: 8 points</p>
+                <p class="reset-timer" id="resetTimer">Resets in: 7 days</p>
+            </div>
+            <div class="leaderboard-list" id="leaderboardList">
+                <div class="leaderboard-empty">No champions yet this week!</div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>🏆 Battle Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-value" id="cowWins">0</span>
+                    <span class="stat-label">🐄 Cow Wins</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="grassWins">0</span>
+                    <span class="stat-label">🌱 Grass Wins</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="draws">0</span>
+                    <span class="stat-label">⚔️ Epic Draws</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalGames">0</span>
+                    <span class="stat-label">🎮 Total Battles</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Token Info Section -->
+        <div class="token-info-section">
+            <h3>🌙 MOONALISA Token</h3>
+            <p class="token-description">Prove your worth by defeating the perfect AI, then celebrate with $MOON tokens!</p>
+            <div class="token-details">
+                <div class="token-address">
+                    <span class="label">Contract:</span>
+                    <span class="address">0x14Eee7d412bDe071a2336C28144D42FAFECf7b07</span>
+                </div>
+                <button id="buyTokenMain" class="buy-token-btn farcaster-token-btn">
+                    <span>🚀 Buy $MOON with Farcaster Wallet</span>
+                </button>
+                <div id="transactionStatus" class="transaction-status hidden">
+                    <span class="status-text"></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameResult" class="game-result hidden">
+            <div class="result-content">
+                <div class="result-icon" id="resultIcon">🎉</div>
+                <div class="result-text" id="resultText">You Win!</div>
+                <div class="result-message" id="resultMessage">Cows triumph over AI!</div>
+                <div class="result-score" id="resultScore">+15 points!</div>
+                <div class="token-promo">
+                    <p>🌙 You conquered the AI! Celebrate with $MOON tokens!</p>
+                    <button id="buyTokenResult" class="small-token-link farcaster-token-btn">
+                        Get $MOON
+                    </button>
+                </div>
+                <button id="playAgain" class="btn-primary">Battle Again</button>
+            </div>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <!-- Farcaster Frame SDK -->
+    <script src="https://unpkg.com/@farcaster/frame-sdk@0.0.1/dist/sdk.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
