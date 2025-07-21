@@ -1,23 +1,22 @@
 {
   "accountAssociation": {
-    "header": "",
-    "payload": "",
-    "signature": ""
-  }
-}
+    "header": "REPLACE_WITH_YOUR_HEADER_FROM_WARPCAST_MANIFEST_TOOL",
+    "payload": "REPLACE_WITH_YOUR_PAYLOAD_FROM_WARPCAST_MANIFEST_TOOL", 
+    "signature": "REPLACE_WITH_YOUR_SIGNATURE_FROM_WARPCAST_MANIFEST_TOOL"
+  },
   "frame": {
     "version": "1",
-    "name": "MOONALISA",
-    "iconUrl": "https://moonalisaa.vercel.app/icon.png",
-    "homeUrl": "https://moonalisaa.vercel.app/",
-    "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
+    "name": "MOONALISA Tic-Tac-Toe",
+    "iconUrl": "https://your-domain.vercel.app/icon.png",
+    "homeUrl": "https://your-domain.vercel.app/",
+    "splashImageUrl": "https://your-domain.vercel.app/splash.png",
     "splashBackgroundColor": "#667eea",
     "subtitle": "Strategic AI Battle Game",
-    "description": "Battle the AI in strategic tic-tac-toe! Choose Cows vs Grass, outsmart the balanced AI, and climb the weekly leaderboard. Celebrate wins with MOON tokens!",
+    "description": "Battle the AI in strategic tic-tac-toe! Choose Cows vs Grass, outsmart the balanced AI, and climb the weekly leaderboard. Celebrate wins with $MOON tokens!",
     "screenshotUrls": [
-      "https://moonalisaa.vercel.app/screenshot1.png",
-      "https://moonalisaa.vercel.app/screenshot2.png",
-      "https://moonalisaa.vercel.app/screenshot3.png"
+      "https://your-domain.vercel.app/screenshot1.png",
+      "https://your-domain.vercel.app/screenshot2.png",
+      "https://your-domain.vercel.app/screenshot3.png"
     ],
     "primaryCategory": "games",
     "tags": [
@@ -27,10 +26,10 @@
       "ai",
       "leaderboard"
     ],
-    "heroImageUrl": "https://moonalisaa.vercel.app/hero.png",
+    "heroImageUrl": "https://your-domain.vercel.app/hero.png",
     "tagline": "Strategic Cow vs Grass Battle",
     "ogTitle": "MOONALISA - Strategic Battle",
-    "ogDescription": "Cows vs Grass with balanced AI challenge and weekly leaderboards.",
-    "ogImageUrl": "https://moonalisaa.vercel.app/og-image.png"
+    "ogDescription": "Battle the AI in strategic tic-tac-toe! Cows vs Grass with balanced AI challenge and weekly leaderboards.",
+    "ogImageUrl": "https://your-domain.vercel.app/og-image.png"
   }
 }
