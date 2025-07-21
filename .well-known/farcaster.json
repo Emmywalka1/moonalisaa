@@ -7,16 +7,16 @@
   "frame": {
     "version": "1",
     "name": "MOONALISA",
-    "iconUrl": "https://your-domain.vercel.app/icon.png",
-    "homeUrl": "https://your-domain.vercel.app/",
-    "splashImageUrl": "https://your-domain.vercel.app/splash.png",
+    "iconUrl": "https://moonalisaa.vercel.app/icon.png",
+    "homeUrl": "https://moonalisaa.vercel.app/",
+    "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
     "splashBackgroundColor": "#667eea",
     "subtitle": "Strategic AI Battle Game",
     "description": "Battle the AI in strategic tic-tac-toe! Choose Cows vs Grass, outsmart the balanced AI, and climb the weekly leaderboard. Celebrate wins with MOON tokens!",
     "screenshotUrls": [
-      "https://your-domain.vercel.app/screenshot1.png",
-      "https://your-domain.vercel.app/screenshot2.png",
-      "https://your-domain.vercel.app/screenshot3.png"
+      "https://moonalisaa.vercel.app/screenshot1.png",
+      "https://moonalisaa.vercel.app/screenshot2.png",
+      "https://moonalisaa.vercel.app/screenshot3.png"
     ],
     "primaryCategory": "games",
     "tags": [
@@ -26,10 +26,10 @@
       "ai",
       "leaderboard"
     ],
-    "heroImageUrl": "https://your-domain.vercel.app/hero.png",
+    "heroImageUrl": "https://moonalisaa.vercel.app/hero.png",
     "tagline": "Strategic Cow vs Grass Battle",
     "ogTitle": "MOONALISA - Strategic Battle",
     "ogDescription": "Cows vs Grass with balanced AI challenge and weekly leaderboards.",
-    "ogImageUrl": "https://your-domain.vercel.app/og-image.png"
+    "ogImageUrl": "https://moonalisaa.vercel.app/og-image.png"
   }
 }
