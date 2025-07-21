@@ -1,54 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MOONALISA - Cows vs Grass Battle (Hard Mode)</title>
+    <title>MOONALISA - Strategic Cow vs Grass Battle</title>
     
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://auth.farcaster.xyz" />
     <link rel="preconnect" href="https://api.farcaster.xyz" />
     <link rel="preconnect" href="https://dexscreener.com" />
     
-    <!-- Farcaster Frame Meta Tags -->
+    <!-- Farcaster Mini App Manifest (Primary) -->
+    <meta name="fc:miniapp" content='{
+        "version": "1",
+        "name": "MOONALISA Tic-Tac-Toe",
+        "iconUrl": "https://moonalisaa.vercel.app/icon.png",
+        "homeUrl": "https://moonalisaa.vercel.app/",
+        "imageUrl": "https://moonalisaa.vercel.app/preview.png",
+        "button": {
+            "title": "🐄 Play MOONALISA",
+            "action": {
+                "type": "launch_frame",
+                "name": "MOONALISA",
+                "url": "https://moonalisaa.vercel.app",
+                "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
+                "splashBackgroundColor": "#667eea"
+            }
+        }
+    }' />
+    
+    <!-- Farcaster Frame Meta Tags (For backward compatibility) -->
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="https://moonalisaa.vercel.app/preview.png" />
-    <meta property="fc:frame:button:1" content="Play MOONALISA" />
+    <meta property="fc:frame:button:1" content="🐄 Play MOONALISA" />
     <meta property="fc:frame:button:1:action" content="post" />
-    <meta property="fc:frame:button:2" content="Buy $MOON" />
-    <meta property="fc:frame:button:2:action" content="tx" />
-    <meta property="fc:frame:button:2:target" content="eip155:8453:0x14Eee7d412bDe071a2336C28144D42FAFECf7b07" />
+    <meta property="fc:frame:button:2" content="💰 Buy $MOON" />
+    <meta property="fc:frame:button:2:action" content="link" />
+    <meta property="fc:frame:button:2:target" content="https://dexscreener.com/base/0x63b94da2c418fa7dc094850008a6bff90d71c675" />
     
-    
-    <!-- Farcaster Frame Embed -->
-<meta name="fc:frame" content='{"version":"next","imageUrl":"https://moonalisaa.vercel.app/preview.png","button":{"title":"🐄 Play MOONALISA","action":{"type":"launch_frame","name":"MOONALISA","url":"https://moonalisaa.vercel.app/","splashImageUrl":"https://moonalisaa.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
-        
-    <!-- Open Graph -->
-    <meta property="og:title" content="MOONALISA - Cows vs Grass Battle Game (Hard Mode)" />
-    <meta property="og:image" content="https://moonalisaa.vercel.app/preview.png" />
-    <meta property="og:description" content="Battle the AI on maximum difficulty! Only the strongest survive!" />
+    <!-- Open Graph (Enhanced for Mini Apps) -->
+    <meta property="og:title" content="MOONALISA - Strategic Cow vs Grass Battle" />
+    <meta property="og:image" content="https://moonalisaa.vercel.app/og-image.png" />
+    <meta property="og:description" content="Battle the AI in strategic tic-tac-toe! Choose Cows vs Grass, outsmart the balanced AI, climb leaderboards, and celebrate with $MOON tokens!" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://moonalisaa.vercel.app/" />
+    <meta property="og:site_name" content="MOONALISA" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MOONALISA - Cows vs Grass Battle Game (Hard Mode)" />
-    <meta name="twitter:description" content="Battle the AI on maximum difficulty! Only the strongest survive!" />
-    <meta name="twitter:image" content="https://moonalisaa.vercel.app/preview.png" />
+    <meta name="twitter:title" content="MOONALISA - Strategic Battle Game" />
+    <meta name="twitter:description" content="Battle the AI in strategic tic-tac-toe! Cows vs Grass with balanced AI challenge." />
+    <meta name="twitter:image" content="https://moonalisaa.vercel.app/twitter-card.png" />
+    <meta name="twitter:creator" content="@emmywalka" />
     
-    <!-- Farcaster specific meta tags -->
+    <!-- Farcaster specific meta tags (Alternative format) -->
     <meta name="farcaster:frame" content="vNext" />
     <meta name="farcaster:frame:image" content="https://moonalisaa.vercel.app/preview.png" />
-    <meta name="farcaster:frame:button:1" content="🐄 Play MOONALISA" />
+    <meta name="farcaster:frame:button:1" content="🐄 Play Game" />
     <meta name="farcaster:frame:button:1:action" content="post" />
+    
+    <!-- App-specific meta -->
+    <meta name="description" content="Strategic tic-tac-toe battle between Cows and Grass! Challenge the balanced AI, climb weekly leaderboards, and celebrate victories with $MOON tokens." />
+    <meta name="keywords" content="farcaster, miniapp, game, tic-tac-toe, strategy, ai, blockchain, moonalisa, cow, grass" />
+    <meta name="author" content="MOONALISA Team" />
     
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐄</text></svg>" />
+    <link rel="apple-touch-icon" href="https://moonalisaa.vercel.app/apple-touch-icon.png" />
     
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Farcaster Mini App SDK -->
     <script type="module">
       import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk'
-      // We need to set the sdk to the window object so that the game.js can access it
       window.sdk = sdk
     </script>
 </head>
