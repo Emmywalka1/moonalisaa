@@ -11,6 +11,7 @@
     "homeUrl": "https://moonalisaa.vercel.app/",
     "splashImageUrl": "https://moonalisaa.vercel.app/splash.png",
     "splashBackgroundColor": "#667eea",
+    "webhookUrl": "https://moonalisaa.vercel.app/api/webhook",
     "subtitle": "Strategic AI Battle Game",
     "description": "Battle the AI in strategic tic-tac-toe! Choose Cows vs Grass, outsmart the balanced AI, and climb the weekly leaderboard. Celebrate wins with MOON tokens!",
     "screenshotUrls": [
