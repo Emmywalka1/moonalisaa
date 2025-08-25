@@ -113,7 +113,7 @@ class MOONALISAGame {
     async handleTokenPurchase(buttonId) {
         // If not in Farcaster miniapp, open external link
         if (!this.isInMiniapp || !this.sdk) {
-            window.open('https://farcaster.xyz/emmywalka/0x2c1ae9fb', '_blank');
+            window.open('https://farcaster.xyz/emmywalka/0xe7e4e523', '_blank');
             return;
         }
 
@@ -127,7 +127,7 @@ class MOONALISAGame {
             statusText.textContent = '⏳ Preparing transaction...';
 
             // Use the miniapp SDK to handle wallet operations
-            const result = await this.sdk.actions.openUrl('https://farcaster.xyz/emmywalka/0x2c1ae9fb');
+            const result = await this.sdk.actions.openUrl('https://farcaster.xyz/emmywalka/0xe7e4e523');
             
             if (result) {
                 // Success - user was redirected to purchase
